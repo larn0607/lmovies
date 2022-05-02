@@ -1,0 +1,149 @@
+@use '../utils/' as *;
+
+.header {
+  @include flex(space-between, center);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  gap: 0 4rem;
+  padding: 1rem 2rem;
+  background-color: transparent;
+  z-index: 100;
+  transition: background-color 0.2s ease;
+
+  &.scroll {
+    background-color: $black;
+    transition: background-color 0.2s ease;
+  }
+
+  @include tablet {
+    gap: 0 0.5rem;
+    padding: 2rem 1rem;
+  }
+
+  &__logo {
+    width: 120px;
+
+    @include tablet {
+      width: 100px;
+    }
+  }
+
+  &__menu {
+    flex-grow: 1;
+    @include flex(flex-start, center);
+    gap: 0 2rem;
+
+    @include tablet {
+      flex-grow: unset;
+      gap: 0 0.5rem;
+    }
+
+    &__item {
+      position: relative;
+      width: 100px;
+      cursor: pointer;
+
+      @include tablet {
+        width: 70px;
+      }
+
+      &:hover &__submenu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        transition: transform 0.2s ease, opacity 0.2s ease, visibility 0.2s ease;
+      }
+
+      &__submenu {
+        position: absolute;
+        top: 150%;
+        left: 0;
+        width: 160px;
+        border: 1px solid $border-grey;
+        background: $white;
+        color: $black;
+        border-radius: 0.5rem;
+        opacity: 0;
+        visibility: hidden;
+        z-index: 1;
+        transform: translateY(-1rem);
+        transition: transform 0.2s ease, opacity 0.2s ease, visibility 0.2s ease;
+
+
+        @include tablet {
+          width: 80px;
+        }
+
+        &__item {
+          padding: 0.5rem 1.5rem;
+          border-radius: 0.5rem;
+          &:hover {
+            background-color: rgba($border-grey, 0.1);
+          }
+
+          @include tablet {
+            padding: 0.5rem 0.5rem;
+            font-size: 10px;
+          }
+        }
+      }
+    }
+  }
+
+  &__search {
+    @include flex(center, center);
+    gap: 0 1rem;
+
+    &__icon {
+      @include flex(center, center);
+      width: 2rem;
+      height: 2rem;
+      background-color: $white;
+      border-radius: 0.5rem;
+      border: 1px solid $border-grey;
+      cursor: pointer;
+
+      & i {
+        font-size: 1rem;
+        color: $black;
+      }
+    }
+
+    &__input {
+      width: 0;
+      opacity: 0;
+      visibility: hidden;
+      transition: width 0.2s ease, opacity 0.2s ease, visibility 0.2s ease;
+
+      @include mobile {
+        position: absolute;
+        top: 90px;
+        left: 0;
+      }
+
+      &.active {
+        width: 300px;
+        opacity: 1;
+        visibility: visible;
+        transition: width 0.2s ease, opacity 0.2s ease, visibility 0.2s ease;
+
+        @include mobile {
+          width: 100%;
+        }
+
+        & input {
+          width: 100%;
+        }
+      }
+
+      & input {
+        width: 0;
+        padding: 0.3rem 0.5rem;
+        border-radius: 0.5rem;
+        border: none;
+      }
+    }
+  }
+}

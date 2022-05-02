@@ -1,0 +1,119 @@
+@use '../utils/' as *;
+
+.modal {
+  @include flex(center, center);
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  visibility: hidden;
+
+
+  &.active {
+    opacity: 1;
+    visibility: visible;  
+  }
+
+
+  &__content {
+    width: 50%;
+    // height: 500px;
+    // overflow-y: scroll;
+    background-color: $black;  
+    position: relative;
+    opacity: 0;
+    transform: translateY(-30%);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+
+    @include tablet {
+      border-radius: 0.5rem;
+    }
+
+
+    &__video {
+      width: 100%;
+
+      &__title {
+        padding: 0.5rem 1rem;
+      }
+    }
+
+    &__detail {
+      width: 100%;
+      @include flex(space-between, flex-start);
+      // margin-top: 1rem;
+      padding: 1rem 0;
+      gap: 0 2rem;
+
+      @include tablet {
+        flex-direction: column;
+        padding: 0;
+        padding-bottom: 1rem;
+        gap: 1rem 0;
+      }
+
+      &__left {
+        flex-grow: 1;
+        margin-left: 1rem;
+
+        @include tablet {
+          margin-left: 0;
+        }
+
+        img {
+          border-radius: 0.5rem;
+        }
+      }
+
+      &__right {
+        width: 90%;
+        padding-right: 1rem;
+
+        @include tablet {
+          width: 100%;
+          padding: 1rem;
+        }
+
+        & > * {
+          margin-bottom: 0.5rem;
+        }
+
+        &__name {
+          font-size: 1.5rem;
+          font-weight: bold;
+        }
+
+        &__fact {
+          & > * ~ * {
+            margin-right: 0.5rem;
+          }
+        }
+
+        &__tagline {
+          color: #727272;
+        }
+      }
+    }
+    
+    &__close {
+      position: absolute;
+      top: 0;
+      right: 5px;
+      font-size: 2rem;
+      color: $white;
+      cursor: pointer;
+    }
+
+  }
+
+
+  &.active &__content {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+}
