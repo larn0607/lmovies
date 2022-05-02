@@ -91,6 +91,7 @@ const Modal = () => {
             </div>
             <div className="modal__content__detail__right__fact">
               <span>{movies.release_date}</span> &#x26AC;{' '}
+              kiki
               {movies.length === 0
                 ? null
                 : movies.genres.map(genre => (
