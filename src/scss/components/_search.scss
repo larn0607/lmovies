@@ -1,0 +1,141 @@
+@use '../utils/' as *;
+
+.search {
+  &__title {
+    height: 180px;
+    padding-top: 4rem;
+    position: relative;
+    @include flex(center, center);
+
+    @include mobile {
+      height: 200px;
+      padding-top: 6rem;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba($black, 0.7);
+    }
+
+    span {
+      position: relative;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+  }
+
+  &__content {
+    min-height: 50vh;
+    max-width: 1200px;
+    margin: 2rem auto;
+
+    @include flex();
+    gap: 0 2rem;
+
+    &__filter {
+      flex-grow: 1;
+      border: 1px solid #222;
+      border-radius: 0.5rem;
+
+      &__top {
+        background-color: $red;
+        border-radius: 0.5rem 0.5rem 0 0;
+        font-size: 1.2rem;
+        font-weight: bold;
+        padding: 1rem;
+      }
+
+      &__list {
+        margin-top: 1rem;
+
+        & a:hover {
+          text-decoration: none;
+        }
+
+        &__item {
+          cursor: pointer;
+          padding: 1rem;
+          @include flex(space-between, center);
+
+          & span:last-child {
+            background-color: rgba($white, 0.8);
+            padding: 0.2rem 0.6rem;
+            color: $black;
+            border-radius: 0.5rem;
+          }
+
+          &:hover {
+            background-color: #222;
+          }
+
+          &.active {
+            background-color: #222;
+            font-weight: bold;
+
+            & span:last-child {
+              background-color: $white;
+            }
+          }
+        }
+      }
+    }
+
+    &__result {
+      width: 80%;
+
+      & .loading {
+        @include flex(center, center);
+      }
+    }
+  }
+}
+
+.search-list {
+  & > * {
+    margin-bottom: 2rem;
+  }
+
+  &__item {
+    @include flex();
+    gap: 0 1.5rem;
+    background-color: rgb(58, 57, 57);
+    box-shadow: 0 2px 8px rgb(202, 202, 202);
+    height: 100%;
+    padding: 0.5rem 1rem;
+
+    &__image {
+      width: 150px;
+
+      img {
+        border-radius: 0.5rem;
+      }
+    }
+
+    &__info {
+      // flex-grow: 1;
+      width: 80%;
+
+      &__name {
+        font-size: 1.5rem;
+        font-weight: bold;
+
+        & a:hoverx {
+          text-decoration: none;
+        }
+      }
+
+      &__release-date {
+        color: #727272;
+      }
+
+      &__overview {
+        margin-top: 2rem;
+      }
+    }
+  }
+}

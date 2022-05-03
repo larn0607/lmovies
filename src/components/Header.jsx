@@ -1,8 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import logo from '../assets/images/logo.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Header = () => {
+
+  const navigate = useNavigate()
+
   const menuHeader = [
     {
       display: 'Movie',
@@ -10,19 +13,19 @@ const Header = () => {
       subMenu: [
         {
           subDisplay: 'Popular',
-          subPath: 'movie/popular'
+          subPath: 'movie?type=popular'
         },
         {
           subDisplay: 'Now Playing',
-          subPath: 'movie/now_playing'
+          subPath: 'movie?type=now_playing'
         },
         {
           subDisplay: 'Upcoming',
-          subPath: 'movie/upcoming'
+          subPath: 'movie?type=upcoming'
         },
         {
           subDisplay: 'Top Rated',
-          subPath: 'movie/top_rated'
+          subPath: 'movie?type=top_rated'
         }
       ]
     },
@@ -32,19 +35,19 @@ const Header = () => {
       subMenu: [
         {
           subDisplay: 'Popular',
-          subPath: 'tv/popular'
+          subPath: 'tv?type=popular'
         },
         {
           subDisplay: 'Airing Today',
-          subPath: 'tv/airing_today'
+          subPath: 'tv?type=airing_today'
         },
         {
           subDisplay: 'On the Air',
-          subPath: 'tv/on_the_air'
+          subPath: 'tv?type=on_the_air'
         },
         {
           subDisplay: 'Top Rated',
-          subPath: 'tv/top_rated'
+          subPath: 'tv?type=top_rated'
         }
       ]
     }
@@ -53,9 +56,32 @@ const Header = () => {
   const [isActive, setIsActive] = useState(false)
   const [scrollHeader, setScrollHeader] = useState(false)
 
+  const [keyword, setKeyword] = useState('')
+
+  const gotoSearch = useCallback(() => {
+    if(keyword.trim().length > 0) {
+      navigate(`/search/movie?query=${keyword}`)
+    }
+  }, [keyword, navigate])
+
+  useEffect(() => {
+    const enterEvent = e => {
+      e.preventDefault()
+      if(e.keyCode === 13)
+      {
+        gotoSearch()
+      }
+    }
+    document.addEventListener('keyup', enterEvent)
+
+    return () => {
+      document.removeEventListener('keyup', enterEvent)
+    }
+  }, [gotoSearch])
+
   useEffect(() => {
     const handleScroll = () => {
-      if(window.scrollY > 100) {
+      if (window.scrollY > 100) {
         setScrollHeader(true)
       } else {
         setScrollHeader(false)
@@ -82,12 +108,11 @@ const Header = () => {
             <li>{item.display}</li>
             <ul className="header__menu__item__submenu">
               {item.subMenu.map((subItem, subIndex) => (
-                <li
-                  className="header__menu__item__submenu__item"
-                  key={subIndex}
-                >
-                  <Link to={`/${subItem.path}`}>{subItem.subDisplay}</Link>
-                </li>
+                <Link to={`/${subItem.subPath}`} key={subIndex}>
+                  <li className="header__menu__item__submenu__item">
+                    {subItem.subDisplay}
+                  </li>
+                </Link>
               ))}
             </ul>
           </ul>
@@ -100,10 +125,8 @@ const Header = () => {
         >
           <i className={`bx bx-${isActive ? 'x' : 'search'}`}></i>
         </div>
-        <div
-          className={`header__search__input${isActive ? ' active' : ''}`}
-        >
-          <input type="text" />
+        <div className={`header__search__input${isActive ? ' active' : ''}`}>
+          <input type="text" value={keyword} onChange={(e) => setKeyword(e.target.value)} />
         </div>
       </div>
     </header>

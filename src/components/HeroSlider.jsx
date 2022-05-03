@@ -2,29 +2,81 @@ import { useState, useEffect, useContext } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { EffectCoverflow, Controller } from 'swiper'
 import apiConfig from '../api/apiConfig'
-import tmdbApi, { movieType, category } from '../api/tmdbApi'
-import { useNavigate } from 'react-router-dom'
+import tmdbApi, { category as cate, movieType, tvType } from '../api/tmdbApi'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import Button, { ButtonGrey } from './Button'
 import { ModalContext } from '../context/ModalProvider'
 
 const HeroSlider = () => {
   const [movies, setMovies] = useState([])
   const [controlSlide, setControlSlide] = useState(null)
+  const [type, setType] = useState('')
+  const { search } = useLocation()
+
+  const { category } = useParams()
+
+  // useEffect(() => {
+  //   const getList = async () => {
+  //     const params = { page: 1 }
+  //     try {
+  //       const response = await tmdbApi.getMoviesList(movieType.popular, {
+  //         params
+  //       })
+  //       setMovies(response.results.slice(0, 10))
+  //     } catch (err) {
+  //       console.log('error:' + err)
+  //     }
+  //   }
+  //   getList()
+  // }, [])
 
   useEffect(() => {
-    const getList = async () => {
-      const params = { page: 1 }
-      try {
-        const response = await tmdbApi.getMoviesList(movieType.popular, {
-          params
-        })
-        setMovies(response.results.slice(0, 10))
-      } catch (err) {
-        console.log('error:' + err)
+    const type = new URLSearchParams(search).get('type') || 'popular'
+    setType(type)
+  }, [search])
+
+  useEffect(() => {
+    const getListMovie = async () => {
+      let res = null
+      if (category === cate.tv) {
+        switch (type) {
+          case tvType.top_rated:
+            res = await tmdbApi.getTvList(tvType.top_rated, { params: {} })
+            break
+          case tvType.airing_today:
+            res = await tmdbApi.getTvList(tvType.airing_today, { params: {} })
+            break
+          case tvType.on_the_air:
+            res = await tmdbApi.getTvList(tvType.on_the_air, { params: {} })
+            break
+          default:
+            res = await tmdbApi.getTvList(tvType.popular, { params: {} })
+        }
+      } else {
+        switch (type) {
+          case movieType.top_rated:
+            res = await tmdbApi.getMoviesList(movieType.top_rated, {
+              params: {}
+            })
+            break
+          case movieType.now_playing:
+            res = await tmdbApi.getMoviesList(movieType.now_playing, {
+              params: {}
+            })
+            break
+          case movieType.upcoming:
+            res = await tmdbApi.getMoviesList(movieType.upcoming, {
+              params: {}
+            })
+            break
+          default:
+            res = await tmdbApi.getMoviesList(movieType.popular, { params: {} })
+        }
       }
+      setMovies(res.results)
     }
-    getList()
-  }, [])
+    getListMovie()
+  }, [category, type])
 
   return (
     <div className="hero-slider">
@@ -38,7 +90,7 @@ const HeroSlider = () => {
       >
         {movies.map((item, index) => (
           <SwiperSlide className="hero-swiper__item" key={index}>
-            <HeroSliderItem item={item} />
+            <HeroSliderItem item={item} category={category} />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -72,7 +124,7 @@ const HeroSlider = () => {
   )
 }
 
-const HeroSliderItem = ({ item }) => {
+const HeroSliderItem = ({ item, category }) => {
   const { setActive, setMovies } = useContext(ModalContext)
   const navigate = useNavigate()
 
@@ -81,7 +133,12 @@ const HeroSliderItem = ({ item }) => {
   )
 
   const setModalDetail = async () => {
-    const detail = await tmdbApi.detail(category.movie, item.id, { params: {} })
+    let detail
+    if (category === 'tv') {
+      detail = await tmdbApi.detail(cate.tv, item.id, { params: {} })
+    } else {
+      detail = await tmdbApi.detail(cate.movie, item.id, { params: {} })
+    }
     // const videos = await tmdbApi.getVideos(category.movie, item.id)
     setMovies(detail)
     // setVideos(videos.results)

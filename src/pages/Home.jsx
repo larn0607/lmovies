@@ -1,6 +1,5 @@
 import HeroSlider from '../components/HeroSlider'
 import MovieList from '../components/MovieList'
-import Modal from '../components/Modal'
 
 import  { category, movieType, tvType } from '../api/tmdbApi'
 
@@ -35,7 +34,6 @@ const Home = () => {
           <MovieList category={category.tv} type={tvType.airing_today} />
         </section>
       </div>
-      <Modal />
     </div>
   )
 }

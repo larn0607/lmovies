@@ -37,7 +37,7 @@ const MovieList = props => {
       >
         {movies.map((item, index) => (
           <SwiperSlide key={index}>
-            <MovieCard item={item} category={props.category} />
+            <MovieCard item={item} cat={props.category} type={props.type} />
           </SwiperSlide>
         ))}
       </Swiper>

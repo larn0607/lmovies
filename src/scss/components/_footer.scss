@@ -1,0 +1,42 @@
+@use '../utils/' as *;
+
+.footer {
+  width: 100%;
+  margin-top: 3rem;
+
+  &__divider {
+    border: 5px solid #222;
+  }
+
+  &__content {
+    padding: 70px 45px;
+    max-width: 1000px;
+    margin: 0 auto;
+    font-size: 0.9rem;
+    color: #757575;
+
+    @include mobile {
+      padding: 70px 50px; 
+    }
+
+    &__top {
+      margin-bottom: 2rem;
+    }
+
+    &__menus {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+
+      @include mobile {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    } 
+
+    &__menu {
+      @include flex();
+      flex-direction: column;
+      gap: 1rem 0;
+      margin-bottom: 1rem;
+    }
+  }
+}

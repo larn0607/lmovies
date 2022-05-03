@@ -2,22 +2,23 @@ import { useContext } from 'react'
 import apiConfig from '../api/apiConfig'
 import Button, { ButtonGrey } from './Button'
 import { ModalContext } from '../context/ModalProvider'
-import tmdbApi from '../api/tmdbApi'
+import tmdbApi, { movieType, category as cate } from '../api/tmdbApi'
 
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
-const MovieCard = ({ item, category }) => {
+const MovieCard = ({ item, cat }) => {
 
   const navigate = useNavigate()
   const { setActive, setMovies } = useContext(ModalContext)
+  const { category } = useParams()
 
-  const bg = apiConfig.w500Image(item.backdrop_path)
+  const link = `/${cate[cat]}/${item.id}`
+
+  const bg = category ? apiConfig.originalImage(item.poster_path) : apiConfig.w500Image(item.backdrop_path)
 
   const setModalDetail = async () => {
-    const detail = await tmdbApi.detail(category, item.id, { params: {} })
-    // const videos = await tmdbApi.getVideos(category, item.id)
+    const detail = await tmdbApi.detail(cat, item.id, { params: {} })
     setMovies(detail)
-    // setVideos(videos.results)
     setActive(true)
   }
 
@@ -27,7 +28,7 @@ const MovieCard = ({ item, category }) => {
         <img src={bg} alt="" />
       </div>
       <div className="movie-card__overlay">
-        <Button className="small"  onClick={() => navigate(`/movie/${item.id}`)}>
+        <Button className="small"  onClick={() => navigate(link)}>
           <i className="bx bx-play"></i>
           <span>Play</span>
         </Button>

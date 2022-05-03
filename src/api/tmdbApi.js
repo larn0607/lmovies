@@ -30,11 +30,13 @@ const tmdbApi = {
   },
   getVideos: (cate, id) => {
     const url = category[cate] + '/' + id + '/videos'
-    return axiosClient.get(url, { params: {}})
+    return axiosClient.get(url, {
+      params: {}
+    })
   },
   search: (cate, params) => {
-    const url = 'search' + category[cate]
-    return axiosClient.get(url, params)
+    const url = 'search/' + category[cate];
+    return axiosClient.get(url, params);
   },
   detail: (type, id, params) => {
     const url = category[type] + '/' + id
@@ -42,11 +44,15 @@ const tmdbApi = {
   },
   credits: (type, id) => {
     const url = category[type] + '/' + id + '/credits'
-    return axiosClient.get(url, { params: {}})
+    return axiosClient.get(url, {
+      params: {}
+    })
   },
   similar: (type, id) => {
     const url = category[type] + '/' + id + '/similar'
-    return axiosClient.get(url, { params: {}})
+    return axiosClient.get(url, {
+      params: {}
+    })
   }
 }
 
