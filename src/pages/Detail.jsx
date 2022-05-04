@@ -26,7 +26,6 @@ const Detail = () => {
     const getCast = async () => {
       const res = await tmdbApi.credits(category, id, { params: {} })
       setCasts(res.cast.slice(0, 8))
-      console.log(res.cast)
     }
     getCast()
   }, [category, id])
@@ -40,9 +39,9 @@ const Detail = () => {
   }, [category, id])
 
   return (
-    <Helmet title={item.name || item.title}>
+    <>
       {item ? (
-        <>
+        <Helmet title={item.name || item.title}>
           <div className="detail">
             <div
               className="detail__header"
@@ -104,11 +103,11 @@ const Detail = () => {
               />
             </div>
           </div>
-        </>
+        </Helmet>
       ) : (
         <PuffLoader color={'#e50914'} size={60} />
       )}
-    </Helmet>
+    </>
   )
 }
 
