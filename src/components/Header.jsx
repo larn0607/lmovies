@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback } from 'react'
 import logo from '../assets/images/logo.png'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 
 const Header = () => {
 
   const navigate = useNavigate()
+  const { pathname } = useLocation()
 
   const menuHeader = [
     {
@@ -70,6 +71,8 @@ const Header = () => {
       if(e.keyCode === 13)
       {
         gotoSearch()
+        setIsActive(false)
+        setKeyword('')
       }
     }
     document.addEventListener('keyup', enterEvent)
@@ -78,6 +81,11 @@ const Header = () => {
       document.removeEventListener('keyup', enterEvent)
     }
   }, [gotoSearch])
+
+  useEffect(() => {
+    setIsActive(false)
+    setKeyword('')
+  }, [pathname])
 
   useEffect(() => {
     const handleScroll = () => {

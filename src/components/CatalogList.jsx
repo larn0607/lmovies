@@ -13,8 +13,6 @@ const CatalogList = ({ category, type }) => {
     const getListMovie = async () => {
       let res = null
       let params = {}
-      const resp = await tmdbApi.search(category, {params: {query: 'batman'}})
-      console.log(resp)
       if (category === cate.tv) {
         switch (type) {
           case tvType.top_rated:

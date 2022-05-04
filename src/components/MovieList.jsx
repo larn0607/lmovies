@@ -12,7 +12,7 @@ const MovieList = props => {
     const getMovieList = async () => {
       let response = null
       const params = {}
-      if(props.type !== 'similar') {
+      if(props.type !== 'recommendations') {
         switch(props.category) {
           case category.movie:
             response = await tmdbApi.getMoviesList(props.type, {params})
@@ -21,7 +21,7 @@ const MovieList = props => {
             response = await tmdbApi.getTvList(props.type, {params})
         }
       } else {
-        response = await tmdbApi.similar(props.category, props.id)
+        response = await tmdbApi.recommendations(props.category, props.id)
       }
       setMovies(response.results)
     }

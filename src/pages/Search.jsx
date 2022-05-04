@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import bg from '../assets/images/bg.jpg'
-import { Link, useParams, useLocation, Navigate } from 'react-router-dom'
+import { Link, useParams, useLocation } from 'react-router-dom'
 import tmdbApi, { category } from '../api/tmdbApi'
 import PuffLoader from 'react-spinners/PuffLoader'
 import SearchList from '../components/SearchList'
-import { ButtonGrey } from '../components/Button'
+// import { ButtonGrey } from '../components/Button'
+import Pagination from '../components/Pagination'
+import Helmet from '../components/Helmet'
 
 const Search = () => {
   const { cat } = useParams()
@@ -19,6 +21,8 @@ const Search = () => {
 
   useEffect(() => {
     const keyword = new URLSearchParams(search).get('query') || ''
+    const page = new URLSearchParams(search).get('page') || 1
+    setPage(Number(page))
     setKeyword(keyword)
   }, [search])
 
@@ -32,7 +36,8 @@ const Search = () => {
       } else {
         setLoading(true)
         const params = {
-          query: keyword
+          query: keyword,
+          page: page
         }
         res = await tmdbApi.search(cat, { params })
         resMovie = await tmdbApi.search(category.movie, { params })
@@ -45,77 +50,88 @@ const Search = () => {
       setLoading(false)
     }
     getList()
-  }, [cat, keyword])
+  }, [cat, keyword, page])
 
-  const loadMore = async () => {
-    let res = null
-    if (keyword.length === 0) {
-      return
-    } else {
-      const params = {
-        query: keyword,
-        page: page + 1
-      }
-      res = await tmdbApi.search(cat, { params })
-    }
-    setPage(page + 1)
-    setList([...list, ...res.results])
-  }
+  // const loadMore = async () => {
+  //   let res = null
+  //   if (keyword.length === 0) {
+  //     return
+  //   } else {
+  //     const params = {
+  //       query: keyword,
+  //       page: page + 1
+  //     }
+  //     res = await tmdbApi.search(cat, { params })
+  //   }
+  //   setPage(page + 1)
+  //   setList([...list, ...res.results])
+  // }
 
   return (
-    <div className="search">
-      {/* {cat !== 'movie' && cat !== 'tv' && <Navigate replace to="/search" />} */}
-      <div className="search__title" style={{ backgroundImage: `url(${bg})` }}>
-        <span>Search</span>
-      </div>
-      <div className="search__content">
-        <div className="search__content__filter">
-          <div className="search__content__filter__top">Result</div>
-          <div className="search__content__filter__list">
-            <Link to={`/search/movie?query=${keyword}`}>
-              <div
-                className={`search__content__filter__list__item${
-                  cat === 'movie' ? ' active' : ''
-                }`}
-              >
-                <span>Movies</span>
-                <span>{totalResultMovies}</span>
-              </div>
-            </Link>
-            <Link to={`/search/tv?query=${keyword}`}>
-              <div
-                className={`search__content__filter__list__item${
-                  cat === 'tv' ? ' active' : ''
-                }`}
-              >
-                <span>TV Shows</span>
-                <span>{totalResultTVs}</span>
-              </div>
-            </Link>
+    <Helmet title="Search">
+      <div className="search">
+        {/* {cat !== 'movie' && cat !== 'tv' && <Navigate replace to="/search" />} */}
+        <div
+          className="search__title"
+          style={{ backgroundImage: `url(${bg})` }}
+        >
+          <span>Search</span>
+        </div>
+        <div className="search__content">
+          <div className="search__content__filter">
+            <div className="search__content__filter__top">Result</div>
+            <div className="search__content__filter__list">
+              <Link to={`/search/movie?query=${keyword}&page=${page}`}>
+                <div
+                  className={`search__content__filter__list__item${
+                    cat === 'movie' ? ' active' : ''
+                  }`}
+                >
+                  <span>Movies</span>
+                  <span>{totalResultMovies}</span>
+                </div>
+              </Link>
+              <Link to={`/search/tv?query=${keyword}&page=${page}`}>
+                <div
+                  className={`search__content__filter__list__item${
+                    cat === 'tv' ? ' active' : ''
+                  }`}
+                >
+                  <span>TV Shows</span>
+                  <span>{totalResultTVs}</span>
+                </div>
+              </Link>
+            </div>
+          </div>
+          <div className="search__content__result">
+            {keyword.length === 0 || list.length === 0 ? (
+              'There are no results matched your query.'
+            ) : (
+              <>
+                {loading ? (
+                  <div className="loading">
+                    <PuffLoader color={'#e50914'} loading={loading} size={60} />
+                  </div>
+                ) : (
+                  <>{<SearchList list={list} category={cat} />}</>
+                )}
+              </>
+            )}
           </div>
         </div>
-        <div className="search__content__result">
-          {keyword.length === 0 || list.length === 0 ? (
-            'There are no results matched your query.'
-          ) : (
-            <>
-              {loading ? (
-                <div className="loading">
-                  <PuffLoader color={'#e50914'} loading={loading} size={60} />
-                </div>
-              ) : (
-                <>{<SearchList list={list} category={cat} />}</>
-              )}
-            </>
-          )}
-        </div>
-      </div>
-        {totalPages > page && (
+        {/* {totalPages > page && (
           <div className="catalog-list__loadmore" onClick={loadMore}>
             <ButtonGrey>Load more</ButtonGrey>
           </div>
-        )}
-    </div>
+        )} */}
+        <Pagination
+          keyword={keyword}
+          totalPages={totalPages}
+          page={page}
+          list={list}
+        />
+      </div>
+    </Helmet>
   )
 }
 

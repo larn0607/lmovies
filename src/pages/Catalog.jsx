@@ -3,6 +3,7 @@ import { useParams, useLocation, Navigate } from 'react-router-dom'
 import { category as cate } from '../api/tmdbApi'
 import CatalogList from '../components/CatalogList'
 import HeroSlider from '../components/HeroSlider'
+import Helmet from '../components/Helmet'
 
 const Catalog = () => {
   const { category } = useParams()
@@ -32,12 +33,16 @@ const Catalog = () => {
       : 'Popular TV Shows'
 
   return (
-    <div className="catalog">
-      {category !== 'movie' && category !== 'tv' && <Navigate replace to="/" />}
-      <HeroSlider />
-      <div className="catalog__title">{title}</div>
-      <CatalogList category={category} type={type} />
-    </div>
+    <Helmet title="Catalog">
+      <div className="catalog">
+        {category !== 'movie' && category !== 'tv' && (
+          <Navigate replace to="/" />
+        )}
+        <HeroSlider />
+        <div className="catalog__title">{title}</div>
+        <CatalogList category={category} type={type} />
+      </div>
+    </Helmet>
   )
 }
 

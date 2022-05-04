@@ -48,12 +48,12 @@ const tmdbApi = {
       params: {}
     })
   },
-  similar: (type, id) => {
-    const url = category[type] + '/' + id + '/similar'
+  recommendations: (type, id) => {
+    const url = category[type] + '/' + id + '/recommendations'
     return axiosClient.get(url, {
       params: {}
     })
-  }
+  },
 }
 
 export default tmdbApi
