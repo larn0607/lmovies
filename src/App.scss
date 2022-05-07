@@ -86,3 +86,8 @@ section {
   //   text-align: center;
   // }
 }
+
+.loading {
+  min-height: 70vh;
+  @include flex(center, center);
+}
