@@ -105,7 +105,7 @@ const Detail = () => {
           </div>
         </Helmet>
       ) : (
-        <div className="loading">
+        <div className="loading-detail">
           <PuffLoader color={'#e50914'} size={60} />
         </div>
       )}

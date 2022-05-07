@@ -63,7 +63,7 @@ const Modal = () => {
 
   const redirect = () => {
     navigate(`/movie/${movies.id}`)
-    setActive(false)
+    // setActive(false)
   }
 
   return (
