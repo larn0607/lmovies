@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import apiConfig from '../api/apiConfig'
 import Button, { ButtonGrey } from './Button'
 import { ModalContext } from '../context/ModalProvider'
-import tmdbApi, { movieType, category as cate } from '../api/tmdbApi'
+import tmdbApi, { category as cate } from '../api/tmdbApi'
 
 import { useNavigate, useParams } from 'react-router-dom'
 
