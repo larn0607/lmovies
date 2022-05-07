@@ -9,7 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 const MovieCard = ({ item, cat }) => {
 
   const navigate = useNavigate()
-  const { setActive, setMovies } = useContext(ModalContext)
+  const { setActive, setMovies, setCate } = useContext(ModalContext)
   const { category } = useParams()
 
   const link = `/${cate[cat]}/${item.id}`
@@ -20,6 +20,7 @@ const MovieCard = ({ item, cat }) => {
     const detail = await tmdbApi.detail(cat, item.id, { params: {} })
     setMovies(detail)
     setActive(true)
+    setCate(cat)
   }
 
   return (

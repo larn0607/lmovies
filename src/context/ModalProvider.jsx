@@ -5,6 +5,7 @@ const ModalContext = createContext()
 const ModalProvider = ({ children }) => {
   const [active, setActive] = useState(false)
   const [movies, setMovies] = useState([])
+  const [cate, setCate] = useState('')
   // const [videos, setVideos] = useState([])
   // console.log(movies)
   const handleActive = () => {
@@ -19,8 +20,8 @@ const ModalProvider = ({ children }) => {
         handleActive,
         movies,
         setMovies,
-        // videos,
-        // setVideos
+        cate,
+        setCate
       }}
     >
       {children}
