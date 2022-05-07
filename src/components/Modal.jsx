@@ -10,13 +10,14 @@ const Modal = () => {
 
   const navigate = useNavigate()
   // const playerRef = useRef(null)
-  const { active, setActive, movies } =
+  const { active, setActive, movies, setMovies } =
     useContext(ModalContext)
   // let link =
   //   videos.length > 0 ? `http://youtube.com/embed/${videos[0].key}` : null
 
   const handleClose = () => {
     setActive(false)
+    setMovies([])
   }
 
   useEffect(() => {
