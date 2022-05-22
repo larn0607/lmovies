@@ -17,7 +17,7 @@ const Search = () => {
   const [totalPages, setTotalPages] = useState(0)
   const [totalResultMovies, setTotalResultMovies] = useState(0)
   const [totalResultTVs, setTotalResultTVs] = useState(0)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const keyword = new URLSearchParams(search).get('query') || ''
@@ -104,7 +104,7 @@ const Search = () => {
             </div>
           </div>
           <div className="search__content__result">
-            {keyword.length === 0 || list.length === 0 ? (
+            {/* {keyword.length === 0 || list.length === 0 ? (
               'There are no results matched your query.'
             ) : (
               <>
@@ -114,6 +114,19 @@ const Search = () => {
                   </div>
                 ) : (
                   <>{<SearchList list={list} category={cat} />}</>
+                )}
+              </>
+            )} */}
+            {loading ? (
+              <div className="loading">
+                <PuffLoader color={'#e50914'} loading={loading} size={60} />
+              </div>
+            ) : (
+              <>
+                {keyword.length === 0 || list.length === 0 ? (
+                  'There are no results matched your query.'
+                ) : (
+                  <SearchList list={list} category={cat} />
                 )}
               </>
             )}
