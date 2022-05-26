@@ -114,7 +114,6 @@
     &__input {
       width: 0;
       opacity: 0;
-      width: 300px;
       // padding: 0.3rem 0.5rem;
       visibility: hidden;
       transition: width 0.2s ease, opacity 0.2s ease, visibility 0.2s ease;
@@ -126,6 +125,7 @@
       }
 
       &.active {
+        width: 300px;
         opacity: 1;
         visibility: visible;
         transition: width 0.2s ease, opacity 0.2s ease, visibility 0.2s ease;
@@ -147,12 +147,12 @@
       }
 
       & .mobile__btn {
+        display: none;
         padding: 0.3rem 1.5rem;
         height: 100%;
         background-color: $color-footer;
         border-radius: 0 0.5rem 0.5rem 0;
-        display: none;
-        @include flex(center, center);
+        // @include flex(center, center);
 
         & i {
           font-size: 1.2rem;
@@ -164,6 +164,7 @@
           position: absolute;
           top: 0;
           right: 0;
+          @include flex(center, center);
         }
       }
     }
