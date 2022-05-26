@@ -14,12 +14,20 @@ const Detail = () => {
   const [videos, setVideos] = useState([])
   const { category, id } = useParams()
 
+  // useEffect(() => {
+  //   setItem(null)
+  // }, [id])
+
   useEffect(() => {
     const getDetail = async () => {
       const res = await tmdbApi.detail(category, id, { params: {} })
       setItem(res)
     }
     getDetail()
+
+    return () => {
+      setItem(null)
+    }
   }, [category, id])
 
   useEffect(() => {
@@ -28,6 +36,11 @@ const Detail = () => {
       setCasts(res.cast.slice(0, 8))
     }
     getCast()
+
+    return () => {
+      setCasts([])
+    }
+    
   }, [category, id])
 
   useEffect(() => {
@@ -36,6 +49,10 @@ const Detail = () => {
       setVideos(res.results.slice(0, 5))
     }
     getVideos()
+
+    return () => {
+      setVideos([])
+    }
   }, [category, id])
 
   return (
