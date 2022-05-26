@@ -7,16 +7,18 @@ import PuffLoader from 'react-spinners/PuffLoader'
 
 const Modal = () => {
   const modalRef = useRef(null)
-  const [loading, setLoading] = useState(true)
+  // const [loading, setLoading] = useState(true)
 
   const navigate = useNavigate()
   // const playerRef = useRef(null)
-  const { active, setActive, movies, cate } = useContext(ModalContext)
+  const { active, setActive, setMovies, movies, cate } =
+    useContext(ModalContext)
   // let link =
   //   videos.length > 0 ? `http://youtube.com/embed/${videos[0].key}` : null
 
   const handleClose = () => {
     setActive(false)
+    setMovies([])
   }
 
   useEffect(() => {
@@ -45,10 +47,6 @@ const Modal = () => {
     }
   }, [active, setActive])
 
-  useEffect(() => {
-    !movies ? setLoading(true) : setLoading(false)
-  }, [movies])
-
   // useEffect(() => {
   //   const height = (playerRef.current.offsetWidth * 9) / 16 + 'px'
   //   playerRef.current.setAttribute('height', height)
@@ -71,9 +69,7 @@ const Modal = () => {
   return (
     <div className={`modal${active ? ' active' : ''}`}>
       <div className="modal__content" ref={modalRef}>
-        {!loading ? (
-          <>
-            {/* <div className="modal__content__video">
+        {/* <div className="modal__content__video">
           <p className="modal__content__video__title">Trailer</p>
           <iframe
             src={link}
@@ -83,45 +79,41 @@ const Modal = () => {
             ref={playerRef}
           ></iframe>
         </div> */}
-            <div className="modal__content__detail">
-              <div className="modal__content__detail__left">
-                <div className="modal__content__detail__left__poster">
-                  <img src={apiConfig.w500Image(movies.poster_path)} alt="" />
-                </div>
-              </div>
-              <div className="modal__content__detail__right">
-                <div className="modal__content__detail__right__name">
-                  {movies.name || movies.title || movies.original_title}
-                </div>
-                <div className="modal__content__detail__right__fact">
-                  <span>{movies.release_date}</span> &#x26AC;{' '}
-                  {movies.length === 0
-                    ? null
-                    : movies.genres.map(genre => (
-                        <span key={genre.id}>{genre.name}</span>
-                      ))}
-                </div>
-                <div className="modal__content__detail__right__tagline">
-                  {movies.tagline}
-                </div>
-                <div className="modal__content__detail__right__overview">
-                  {movies.overview}
-                </div>
-                <div className="modal__content__detail__right__button">
-                  <Button onClick={redirect}>
-                    <i className="bx bx-play"></i>
-                    <span>Play</span>
-                  </Button>
-                </div>
-              </div>
+        <div className="modal__content__detail">
+          <div className="modal__content__detail__left">
+            <div className="modal__content__detail__left__poster">
+              <img src={apiConfig.w500Image(movies.poster_path)} alt="" />
             </div>
-            <div className="modal__content__close" onClick={handleClose}>
-              <i className="bx bx-x"></i>
+          </div>
+          <div className="modal__content__detail__right">
+            <div className="modal__content__detail__right__name">
+              {movies.name || movies.title || movies.original_title}
             </div>
-          </>
-        ) : (
-          <PuffLoader color={'#e50914'} size={60} />
-        )}
+            <div className="modal__content__detail__right__fact">
+              <span>{movies.release_date}</span> &#x26AC;{' '}
+              {movies.length === 0
+                ? null
+                : movies.genres.map(genre => (
+                    <span key={genre.id}>{genre.name}</span>
+                  ))}
+            </div>
+            <div className="modal__content__detail__right__tagline">
+              {movies.tagline}
+            </div>
+            <div className="modal__content__detail__right__overview">
+              {movies.overview}
+            </div>
+            <div className="modal__content__detail__right__button">
+              <Button onClick={redirect}>
+                <i className="bx bx-play"></i>
+                <span>Play</span>
+              </Button>
+            </div>
+          </div>
+        </div>
+        <div className="modal__content__close" onClick={handleClose}>
+          <i className="bx bx-x"></i>
+        </div>
       </div>
     </div>
   )

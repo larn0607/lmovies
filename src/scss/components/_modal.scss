@@ -21,7 +21,8 @@
 
   &__content {
     width: 50%;
-    // height: 500px;
+    // min-height:500px;
+    // height: 80%;
     // overflow-y: scroll;
     background-color: $black;  
     position: relative;
@@ -30,9 +31,9 @@
     transition: opacity 0.2s ease, transform 0.2s ease;
 
     @include tablet {
+      width: 80%;
       border-radius: 0.5rem;
     }
-
 
     &__video {
       width: 100%;
@@ -62,6 +63,13 @@
 
         @include tablet {
           margin-left: 0;
+          flex-grow: 0;
+          width: 100%;
+          text-align: center;
+
+          img {
+            width: 50%;
+          }
         }
 
         img {
