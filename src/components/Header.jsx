@@ -135,6 +135,9 @@ const Header = () => {
         </div>
         <div className={`header__search__input${isActive ? ' active' : ''}`}>
           <input type="text" value={keyword} onChange={(e) => setKeyword(e.target.value)} />
+          <div className="mobile__btn" onClick={gotoSearch}>
+            <i className={`bx bx-search`}></i>
+          </div>
         </div>
       </div>
     </header>
