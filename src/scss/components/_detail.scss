@@ -11,8 +11,14 @@
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
-    overflow: hidden;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
     @include flex();
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     @include mobile {
       height: 600px;
@@ -73,6 +79,10 @@
         height: 100%;
         gap: 2rem 0;
         flex: 1;
+
+        @include tablet {
+          gap: 1rem 0;
+        }
 
         &__header {
           &__name {

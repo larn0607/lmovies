@@ -6,6 +6,10 @@
   position: relative;
   margin-bottom: 3rem;
 
+  @include tablet {
+    height: 100vh;
+  }
+
   &__item {
     height: 100%;
     position: relative;
@@ -65,9 +69,9 @@
         top: 60%;
       }
 
-      @include mobile {
-        top: 65%;
-      }
+      // @include mobile {
+      //   top: 57%;
+      // }
 
       @include mobile {
         padding: 0 3rem;
@@ -134,7 +138,7 @@
     @include mobile {
       width: 100%;
       // top: 20%;
-      transform: translateX(0%);
+      transform: translateX(0);
     }
 
     &__item {
